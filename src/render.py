@@ -23,22 +23,22 @@ verticies = (
     (0.02, 0.02, 0.02),
     (-0.02, -0.02, 0.02),
     (-0.02, 0.02, 0.02)
-    )
+)
 
 edges = (
-    (0,1),
-    (0,3),
-    (0,4),
-    (2,1),
-    (2,3),
-    (2,7),
-    (6,3),
-    (6,4),
-    (6,7),
-    (5,1),
-    (5,4),
-    (5,7)
-    )
+    (0, 1),
+    (0, 3),
+    (0, 4),
+    (2, 1),
+    (2, 3),
+    (2, 7),
+    (6, 3),
+    (6, 4),
+    (6, 7),
+    (5, 1),
+    (5, 4),
+    (5, 7)
+)
 
 
 def draw_cube(coords):
@@ -52,7 +52,8 @@ def draw_cube(coords):
     glEnd()
     glPopMatrix()
 
-def draw_lines(points, closed = False, color_l = WHITE):
+
+def draw_lines(points, closed=False, color_l=WHITE):
     n = len(points)
     iters = n if closed else n - 1
     glBegin(GL_LINES)
@@ -63,7 +64,8 @@ def draw_lines(points, closed = False, color_l = WHITE):
 
     glEnd()
 
-def draw_sphere(coords, radius, color_s = BLUE):
+
+def draw_sphere(coords, radius, color_s=BLUE):
     quad: gluNewQuadric = gluNewQuadric()
     gluQuadricDrawStyle(quad, GLU_LINE)
     glColor3f(color_s[0], color_s[1], color_s[2])
@@ -73,6 +75,7 @@ def draw_sphere(coords, radius, color_s = BLUE):
 
     gluSphere(quad, radius, 12, 12)
     glPopMatrix()
+
 
 class Renderer:
     def __init__(self, periscope: Periscope = None):
@@ -87,19 +90,19 @@ class Renderer:
     def rotateCamera(self, angle, vector):
         glRotatef(angle, *vector)
 
-    def render(self, p1_intersect, p2_intersect, p3_intersect, p4_intersect, target: Target, p_aim):
+    def render(self, p1_intersect, p2_intersect, p3_intersect, p4_intersect, target: Target, target_2: Target,
+               p_aim, p_aim_2):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-        self.__render_geometry(p1_intersect, p2_intersect, p3_intersect, p4_intersect, target, p_aim)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+        self.__render_geometry(p1_intersect, p2_intersect, p3_intersect, p4_intersect, target, target_2, p_aim, p_aim_2)
         pygame.display.flip()
 
-
-    def __render_geometry(self, p1_intersect, p2_intersect, p3_intersect, p4_intersect, target: Target, p_aim):
-
+    def __render_geometry(self, p1_intersect, p2_intersect, p3_intersect, p4_intersect, target: Target,
+                          target_2: Target, p_aim, p_aim_2):
         draw_lines(self.periscope.mirror_down.triangle.get_points(), True)
         draw_lines(self.periscope.mirror_up.triangle.get_points(), True)
         draw_lines(self.periscope.mirror_3.triangle.get_points(), True)
@@ -108,5 +111,6 @@ class Renderer:
                     p3_intersect.get_point(), p4_intersect.get_point(), p_aim.get_point()), False, RED)
         draw_sphere(target.location.get_point(), target.radius)
         draw_sphere(p_aim.get_point(), 0.004, GREEN)
+        draw_sphere(target_2.location.get_point(), target_2.radius)
+        draw_sphere(p_aim_2.get_point(), 0.004, GREEN)
         draw_cube(self.periscope.laser.startPos.get_point())
-

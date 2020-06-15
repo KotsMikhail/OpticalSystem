@@ -24,6 +24,7 @@ class Periscope:
         self.mirror_4 = Mirror(Triangle(points3_tr_4[0], points3_tr_4[1], points3_tr_4[2]))
 
         self.target: Target = Target
+        self.target_2 : Target = Target
 
     def set_target(self, target: Target):
         self.target = target

@@ -9,11 +9,6 @@ def get_project_root() -> Path:
     """Returns project root folder."""
     return Path(__file__).parent.parent
 
-def fuck():
-    f = Vector(Point3d(8.5, 0, 10.34))
-    f.normalize()
-    print(f.get_point().get_point())
-
 
 def mirror(pivot: Vector, center: Vector, norm: Vector):
     base = pivot - center
@@ -28,7 +23,6 @@ def mirror(pivot: Vector, center: Vector, norm: Vector):
 
 
 def parse(model: str) -> {}:
-    fuck()
     with open(str(get_project_root()) + '/configs/' + model + '_input.json', 'r') as input_file:
         data = input_file.read()
 
